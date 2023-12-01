@@ -32,9 +32,8 @@ function part2() {
   return input
     .split("\n")
     .map((t) => {
-      const fwd = String(t.match(fwd_re)![0]);
-      const rev = String(reverse(t).match(rev_re)![0]);
-
+      const fwd = t.match(fwd_re)![0];
+      const rev = reverse(t).match(rev_re)![0];
       const first = fwd.length > 1 ? 1 + digits.indexOf(fwd) : fwd;
       const last = rev.length > 1 ? 1 + digits.indexOf(reverse(rev)) : rev;
 
