@@ -4,7 +4,7 @@ function reverse(str: string) {
   return str.split("").reverse().join("");
 }
 
-function part1() {
+export function part1() {
   return input
     .split("\n")
     .map((t) => t.replaceAll(/[a-zA-Z]/g, ""))
@@ -12,7 +12,7 @@ function part1() {
     .reduce((a, b) => a + b);
 }
 
-function part2() {
+export function part2() {
   const digits = [
     "one",
     "two",
