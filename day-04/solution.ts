@@ -39,29 +39,30 @@ export function part2() {
   const cardDict = Object.fromEntries(
     input.split("\n").map((card, i) => [i + 1, parseCard(card)])
   );
-  const cache: Record<string, (typeof cardDict)[string][]> = {};
+  const cache: Record<string, number> = {};
 
-  function calcWinnings(id: number) {
-    if (!cardDict[id]) return [];
+  function calcWinnings(id: number): number {
+    if (!cardDict[id]) return 0;
     if (!cache[id]) {
       const card = cardDict[id];
       const matches = card.drawn.filter((num) => card.winning.has(num));
-      cache[id] = range(id + 1, matches.length)
+      const winnings = range(id + 1, matches.length)
         .map((n) => cardDict[n])
         .filter((v) => !!v);
+
+      cache[id] =
+        winnings.length +
+        winnings
+          .map(({ id }) => calcWinnings(id))
+          .reduce((sum, s) => sum + s, 0);
     }
 
     return cache[id];
   }
 
   const cards = Object.values(cardDict);
-  let i = 0;
-  while (i < cards.length) {
-    cards.push(...calcWinnings(cards[i].id));
-    i++;
-  }
 
-  return i;
+  return cards.reduce((sum, card) => sum + calcWinnings(card.id), cards.length);
 }
 
 console.log("Part 1:", part1());
